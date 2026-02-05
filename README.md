@@ -16,6 +16,8 @@ Find bicycle parking locations across Singapore on an interactive map.
 
 Bicycle parking data from [LTA DataMall](https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html) (~2,542 locations).
 
+**Last updated:** February 2026
+
 ## Getting Started
 
 ### Prerequisites
