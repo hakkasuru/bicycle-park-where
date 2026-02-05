@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Mapbox popup styling overrides */
+.mapboxgl-popup-content {
+  padding: 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 18px;
+  padding: 4px 8px;
+  color: #6b7280;
+}
+
+.mapboxgl-popup-close-button:hover {
+  background-color: #f3f4f6;
+  color: #374151;
+}
