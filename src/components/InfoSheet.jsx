@@ -61,15 +61,19 @@ export function InfoSheet() {
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-3">
                 <div className="w-4 h-4 rounded-full bg-blue-500" />
-                <span className="text-gray-700">Official spots (sheltered)</span>
+                <span className="text-gray-700">Official (sheltered)</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-4 h-4 rounded-full bg-white border-2 border-blue-500" />
-                <span className="text-gray-700">Official spots (unsheltered)</span>
+                <span className="text-gray-700">Official (unsheltered)</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-4 h-4 rounded-full bg-orange-500" />
-                <span className="text-gray-700">User-submitted spots</span>
+                <span className="text-gray-700">User-submitted (sheltered)</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 rounded-full bg-white border-2 border-orange-500" />
+                <span className="text-gray-700">User-submitted (unsheltered)</span>
               </div>
             </div>
 

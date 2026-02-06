@@ -86,17 +86,31 @@ const unshelteredPointLayer = {
   },
 };
 
-// User-submitted spots (orange)
-const userSubmittedLayer = {
-  id: 'user-submitted-point',
+// User-submitted spots - sheltered (orange filled)
+const userSubmittedShelteredLayer = {
+  id: 'user-submitted-sheltered',
   type: 'circle',
   source: 'parking',
-  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'isUserSubmitted'], true]],
+  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'isUserSubmitted'], true], ['==', ['get', 'ShelterIndicator'], 'Y']],
   paint: {
     'circle-color': '#f97316',
     'circle-radius': 9,
     'circle-stroke-width': 2,
     'circle-stroke-color': '#fff',
+  },
+};
+
+// User-submitted spots - unsheltered (white with orange border)
+const userSubmittedUnshelteredLayer = {
+  id: 'user-submitted-unsheltered',
+  type: 'circle',
+  source: 'parking',
+  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'isUserSubmitted'], true], ['==', ['get', 'ShelterIndicator'], 'N']],
+  paint: {
+    'circle-color': '#fff',
+    'circle-radius': 9,
+    'circle-stroke-width': 2,
+    'circle-stroke-color': '#f97316',
   },
 };
 
@@ -197,7 +211,7 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      interactiveLayerIds={['clusters', 'sheltered-point', 'unsheltered-point', 'user-submitted-point']}
+      interactiveLayerIds={['clusters', 'sheltered-point', 'unsheltered-point', 'user-submitted-sheltered', 'user-submitted-unsheltered']}
       cursor={cursor}
       style={{ width: '100%', height: '100%' }}
       mapStyle="mapbox://styles/mapbox/streets-v12"
@@ -219,7 +233,8 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
         <Layer {...clusterCountLayer} />
         <Layer {...shelteredPointLayer} />
         <Layer {...unshelteredPointLayer} />
-        <Layer {...userSubmittedLayer} />
+        <Layer {...userSubmittedShelteredLayer} />
+        <Layer {...userSubmittedUnshelteredLayer} />
       </Source>
 
       {/* User location marker */}
