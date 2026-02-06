@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Map } from './components/Map';
 import { SearchBar } from './components/SearchBar';
 import { FilterSheet } from './components/FilterSheet';
@@ -71,6 +72,8 @@ function App() {
           {filteredData.length} parking spots
         </div>
       </div>
+
+      <SpeedInsights />
     </div>
   );
 }
