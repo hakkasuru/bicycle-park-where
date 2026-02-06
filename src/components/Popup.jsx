@@ -35,6 +35,11 @@ export function Popup({ spot, onClose }) {
               {spot.ShelterIndicator === 'Y' ? 'Yes' : 'No'}
             </span>
           </div>
+          {spot.Notes && (
+            <div className="pt-2 mt-2 border-t border-gray-100">
+              <span className="text-gray-500 italic">{spot.Notes}</span>
+            </div>
+          )}
         </div>
       </div>
     </MapPopup>

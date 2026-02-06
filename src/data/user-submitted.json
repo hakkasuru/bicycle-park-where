@@ -1,0 +1,20 @@
+[
+  {
+    "Description": "Funan Mall Basement",
+    "Latitude": 1.2915,
+    "Longitude": 103.8495,
+    "RackType": "SHOPPING_MALL",
+    "RackCount": 10,
+    "ShelterIndicator": "Y",
+    "Notes": "Near the loading bay entrance, usually empty"
+  },
+  {
+    "Description": "Under the bridge at Clarke Quay",
+    "Latitude": 1.2906,
+    "Longitude": 103.8465,
+    "RackType": "OTHER",
+    "RackCount": 6,
+    "ShelterIndicator": "Y",
+    "Notes": "Sheltered from rain, next to 7-Eleven"
+  }
+]

@@ -6,15 +6,22 @@ import { LocateButton } from './components/LocateButton';
 import { useFilteredData, DEFAULT_FILTERS } from './hooks/useFilteredData';
 import { useGeolocation } from './hooks/useGeolocation';
 import bicycleParkingData from './data/bicycle-parking.json';
+import userSubmittedData from './data/user-submitted.json';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
+
+// Merge both data sources, mark user-submitted spots
+const allParkingData = [
+  ...bicycleParkingData,
+  ...userSubmittedData.map(spot => ({ ...spot, isUserSubmitted: true }))
+];
 
 function App() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [flyTo, setFlyTo] = useState(null);
   const { location: userLocation, loading: locating, getCurrentLocation } = useGeolocation();
 
-  const filteredData = useFilteredData(bicycleParkingData, filters);
+  const filteredData = useFilteredData(allParkingData, filters);
 
   const handleSearch = (location) => {
     setFlyTo({ ...location, timestamp: Date.now() });

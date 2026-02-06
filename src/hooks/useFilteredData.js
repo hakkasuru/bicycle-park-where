@@ -31,13 +31,15 @@ export const RACK_TYPE_LABELS = {
   'LTA_RACKS': 'LTA',
   'NPARKS_RACKS': 'Parks',
   'NLB_RACKS': 'Library',
-  'PA_RACKS': 'CC',
+  'PA_RACKS': 'Community Club',
   'SPORTSG_RACKS': 'Sports',
   'JTC_RACKS': 'JTC',
   'ITE_RACKS': 'ITE',
   'NANYANG POLY_RACKS': 'NYP',
   'JBTC_RACKS': 'JBTC',
   'Yellow Box': 'Yellow Box',
+  'SHOPPING_MALL': 'Shopping Mall',
+  'OTHER': 'Other',
 };
 
 export const DEFAULT_FILTERS = {

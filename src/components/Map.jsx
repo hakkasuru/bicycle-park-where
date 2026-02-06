@@ -63,7 +63,7 @@ const shelteredPointLayer = {
   id: 'sheltered-point',
   type: 'circle',
   source: 'parking',
-  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'ShelterIndicator'], 'Y']],
+  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'ShelterIndicator'], 'Y'], ['!=', ['get', 'isUserSubmitted'], true]],
   paint: {
     'circle-color': '#3b82f6',
     'circle-radius': 8,
@@ -77,12 +77,26 @@ const unshelteredPointLayer = {
   id: 'unsheltered-point',
   type: 'circle',
   source: 'parking',
-  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'ShelterIndicator'], 'N']],
+  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'ShelterIndicator'], 'N'], ['!=', ['get', 'isUserSubmitted'], true]],
   paint: {
     'circle-color': '#fff',
     'circle-radius': 8,
     'circle-stroke-width': 2,
     'circle-stroke-color': '#3b82f6',
+  },
+};
+
+// User-submitted spots (orange)
+const userSubmittedLayer = {
+  id: 'user-submitted-point',
+  type: 'circle',
+  source: 'parking',
+  filter: ['all', ['!', ['has', 'point_count']], ['==', ['get', 'isUserSubmitted'], true]],
+  paint: {
+    'circle-color': '#f97316',
+    'circle-radius': 9,
+    'circle-stroke-width': 2,
+    'circle-stroke-color': '#fff',
   },
 };
 
@@ -153,6 +167,8 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
       RackType: feature.properties.RackType,
       RackCount: feature.properties.RackCount,
       ShelterIndicator: feature.properties.ShelterIndicator,
+      Notes: feature.properties.Notes || null,
+      isUserSubmitted: feature.properties.isUserSubmitted || false,
     };
     setSelectedSpot(spot);
   }, []);
@@ -181,7 +197,7 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      interactiveLayerIds={['clusters', 'sheltered-point', 'unsheltered-point']}
+      interactiveLayerIds={['clusters', 'sheltered-point', 'unsheltered-point', 'user-submitted-point']}
       cursor={cursor}
       style={{ width: '100%', height: '100%' }}
       mapStyle="mapbox://styles/mapbox/streets-v12"
@@ -203,6 +219,7 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
         <Layer {...clusterCountLayer} />
         <Layer {...shelteredPointLayer} />
         <Layer {...unshelteredPointLayer} />
+        <Layer {...userSubmittedLayer} />
       </Source>
 
       {/* User location marker */}

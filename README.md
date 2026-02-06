@@ -54,6 +54,40 @@ To fetch the latest data from LTA DataMall:
 LTA_API_KEY=your_key npm run fetch-data
 ```
 
+## Contributing a Spot
+
+Know a bicycle parking spot not in the official data? Add it to `src/data/user-submitted.json`:
+
+```json
+{
+  "Description": "Location name",
+  "Latitude": 1.2345,
+  "Longitude": 103.8765,
+  "RackType": "SHOPPING_MALL",
+  "RackCount": 10,
+  "ShelterIndicator": "Y",
+  "Notes": "Optional helpful notes"
+}
+```
+
+### Fields
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `Description` | Yes | Location name |
+| `Latitude` | Yes | GPS latitude |
+| `Longitude` | Yes | GPS longitude |
+| `RackType` | Yes | See rack types below |
+| `RackCount` | Yes | Number of parking lots |
+| `ShelterIndicator` | Yes | `"Y"` = sheltered, `"N"` = unsheltered |
+| `Notes` | No | Helpful tips (e.g., "Near exit B") |
+
+### Rack Types
+
+`HDB_RACKS`, `MRT_RACKS`, `LTA_RACKS`, `NPARKS_RACKS`, `NLB_RACKS`, `PA_RACKS`, `SPORTSG_RACKS`, `JTC_RACKS`, `ITE_RACKS`, `SHOPPING_MALL`, `OTHER`
+
+User-submitted spots appear as **orange markers** on the map.
+
 ## Tech Stack
 
 - [React](https://react.dev/) + [Vite](https://vitejs.dev/)
