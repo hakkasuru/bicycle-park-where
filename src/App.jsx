@@ -3,6 +3,7 @@ import { Map } from './components/Map';
 import { SearchBar } from './components/SearchBar';
 import { FilterSheet } from './components/FilterSheet';
 import { LocateButton } from './components/LocateButton';
+import { InfoSheet } from './components/InfoSheet';
 import { useFilteredData, DEFAULT_FILTERS } from './hooks/useFilteredData';
 import { useGeolocation } from './hooks/useGeolocation';
 import bicycleParkingData from './data/bicycle-parking.json';
@@ -57,9 +58,10 @@ function App() {
           />
         </div>
 
-        {/* Locate Button */}
-        <div className="pointer-events-auto">
+        {/* Locate Button & Info */}
+        <div className="pointer-events-auto flex gap-2">
           <LocateButton onClick={handleLocate} loading={locating} />
+          <InfoSheet />
         </div>
       </div>
 
