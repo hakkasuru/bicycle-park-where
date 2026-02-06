@@ -2,7 +2,9 @@
 
 Find bicycle parking locations across Singapore on an interactive map.
 
-![Screenshot](https://img.shields.io/badge/spots-2%2C542-blue) ![License](https://img.shields.io/badge/license-MIT-green)
+**🚲 Live Demo: [bicycle-park-where.vercel.app](https://bicycle-park-where.vercel.app/)**
+
+![Screenshot](https://img.shields.io/badge/spots-26k+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Features
 
