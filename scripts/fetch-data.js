@@ -7,8 +7,24 @@
  */
 
 const API_URL = 'https://datamall2.mytransport.sg/ltaodataservice/BicycleParkingv2';
-const SINGAPORE_CENTER = { lat: 1.3521, lng: 103.8198 };
-const SEARCH_RADIUS = 50; // km - covers all of Singapore
+const SEARCH_RADIUS = 5; // km per query point
+const DELAY_MS = 100; // delay between API calls to avoid rate limiting
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Multiple query points to cover all of Singapore
+const QUERY_POINTS = [
+  { lat: 1.35, lng: 103.70 },  // West (Jurong/Tuas)
+  { lat: 1.35, lng: 103.75 },  // West-Central
+  { lat: 1.35, lng: 103.82 },  // Central
+  { lat: 1.35, lng: 103.89 },  // East-Central
+  { lat: 1.35, lng: 103.96 },  // East (Tampines/Changi)
+  { lat: 1.30, lng: 103.82 },  // South-Central
+  { lat: 1.40, lng: 103.82 },  // North-Central
+  { lat: 1.44, lng: 103.79 },  // North (Woodlands)
+  { lat: 1.40, lng: 103.90 },  // Northeast (Sengkang/Punggol)
+  { lat: 1.32, lng: 103.66 },  // Far West (Tuas)
+];
 
 async function fetchBicycleParking() {
   const apiKey = process.env.LTA_API_KEY;
@@ -21,49 +37,56 @@ async function fetchBicycleParking() {
   }
 
   console.log('Fetching bicycle parking data from LTA DataMall...');
+  console.log(`Querying ${QUERY_POINTS.length} points across Singapore...\n`);
 
   const uniqueRecords = new Map();
-  let skip = 0;
-  const batchSize = 500;
-  const maxIterations = 50; // Safety limit
-  let iterations = 0;
 
-  while (iterations < maxIterations) {
-    const url = `${API_URL}?Lat=${SINGAPORE_CENTER.lat}&Long=${SINGAPORE_CENTER.lng}&Dist=${SEARCH_RADIUS}&$skip=${skip}`;
+  for (const point of QUERY_POINTS) {
+    let skip = 0;
+    const batchSize = 500;
+    const maxIterations = 20;
+    let iterations = 0;
+    let pointRecords = 0;
 
-    const response = await fetch(url, {
-      headers: {
-        'AccountKey': apiKey,
-        'Accept': 'application/json'
+    while (iterations < maxIterations) {
+      const url = `${API_URL}?Lat=${point.lat}&Long=${point.lng}&Dist=${SEARCH_RADIUS}&$skip=${skip}`;
+
+      const response = await fetch(url, {
+        headers: {
+          'AccountKey': apiKey,
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
       }
-    });
 
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+      const data = await response.json();
+      await sleep(DELAY_MS); // Rate limiting
+      const batch = data.value || [];
+
+      if (batch.length === 0) break;
+
+      // Deduplicate using lat+long+description as key
+      let newCount = 0;
+      for (const record of batch) {
+        const key = `${record.Latitude}_${record.Longitude}_${record.Description}`;
+        if (!uniqueRecords.has(key)) {
+          uniqueRecords.set(key, record);
+          newCount++;
+          pointRecords++;
+        }
+      }
+
+      // Stop if no new records from this point
+      if (newCount === 0) break;
+
+      skip += batchSize;
+      iterations++;
     }
 
-    const data = await response.json();
-    const batch = data.value || [];
-
-    if (batch.length === 0) break;
-
-    // Deduplicate using lat+long+description as key
-    let newCount = 0;
-    for (const record of batch) {
-      const key = `${record.Latitude}_${record.Longitude}_${record.Description}`;
-      if (!uniqueRecords.has(key)) {
-        uniqueRecords.set(key, record);
-        newCount++;
-      }
-    }
-
-    console.log(`Batch ${iterations + 1}: ${batch.length} records, ${newCount} new. Total unique: ${uniqueRecords.size}`);
-
-    // Stop if no new records were added (we've seen all data)
-    if (newCount === 0) break;
-
-    skip += batchSize;
-    iterations++;
+    console.log(`Point (${point.lat}, ${point.lng}): ${pointRecords} new records. Total: ${uniqueRecords.size}`);
   }
 
   const allData = Array.from(uniqueRecords.values());

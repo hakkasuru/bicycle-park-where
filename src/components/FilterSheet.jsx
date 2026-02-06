@@ -7,7 +7,8 @@ export function FilterSheet({ filters, onChange, resultCount }) {
   const hasActiveFilters =
     filters.shelterOnly ||
     filters.rackTypes.length > 0 ||
-    filters.minCapacity > 0;
+    filters.minCapacity > 0 ||
+    filters.showYellowBox;
 
   const toggleRackType = (type) => {
     const newTypes = filters.rackTypes.includes(type)
@@ -111,11 +112,33 @@ export function FilterSheet({ filters, onChange, resultCount }) {
               </label>
             </div>
 
+            {/* Yellow Box Toggle */}
+            <div>
+              <label className="flex items-center justify-between cursor-pointer">
+                <div>
+                  <div className="font-medium text-gray-900">Show Yellow Box</div>
+                  <div className="text-sm text-gray-500">Include yellow box parking areas</div>
+                </div>
+                <div
+                  className={`relative w-12 h-7 rounded-full transition-colors ${
+                    filters.showYellowBox ? 'bg-blue-500' : 'bg-gray-200'
+                  }`}
+                  onClick={() => onChange({ ...filters, showYellowBox: !filters.showYellowBox })}
+                >
+                  <div
+                    className={`absolute top-1 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                      filters.showYellowBox ? 'translate-x-6' : 'translate-x-1'
+                    }`}
+                  />
+                </div>
+              </label>
+            </div>
+
             {/* Rack Type Filter */}
             <div>
               <div className="font-medium text-gray-900 mb-3">Location type</div>
               <div className="flex flex-wrap gap-2">
-                {Object.entries(RACK_TYPE_LABELS).map(([type, label]) => (
+                {Object.entries(RACK_TYPE_LABELS).filter(([type]) => type !== 'Yellow Box').map(([type, label]) => (
                   <button
                     key={type}
                     onClick={() => toggleRackType(type)}

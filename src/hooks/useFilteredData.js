@@ -20,9 +20,14 @@ export function useFilteredData(data, filters) {
         return false;
       }
 
+      // Hide Yellow Box spots unless enabled
+      if (!filters.showYellowBox && spot.RackType === 'Yellow Box') {
+        return false;
+      }
+
       return true;
     });
-  }, [data, filters.shelterOnly, filters.rackTypes, filters.minCapacity]);
+  }, [data, filters.shelterOnly, filters.rackTypes, filters.minCapacity, filters.showYellowBox]);
 }
 
 export const RACK_TYPE_LABELS = {
@@ -46,4 +51,5 @@ export const DEFAULT_FILTERS = {
   shelterOnly: false,
   rackTypes: [],
   minCapacity: 0,
+  showYellowBox: false,
 };
