@@ -33,6 +33,11 @@ Copy `.env.example` to `.env.local` and add your tokens:
   - Commit `.env` or `.env.local` files
   - Share or reveal token values
 
+## Git Commit Practices
+
+- **Do NOT add co-author lines to commit messages** (no `Co-Authored-By` footer)
+- Keep commit messages concise and descriptive
+
 ## Project Structure
 
 ```
