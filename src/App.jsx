@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Map } from './components/Map';
 import { SearchBar } from './components/SearchBar';
@@ -73,6 +74,7 @@ function App() {
         </div>
       </div>
 
+      <Analytics />
       <SpeedInsights />
     </div>
   );
