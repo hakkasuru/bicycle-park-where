@@ -6,6 +6,12 @@ html, body, #root {
   padding: 0;
 }
 
+/* Offset Mapbox bottom controls above UI buttons */
+.mapboxgl-ctrl-bottom-right,
+.mapboxgl-ctrl-bottom-left {
+  margin-bottom: 5rem;
+}
+
 /* Mapbox popup styling overrides */
 .mapboxgl-popup-content {
   padding: 0;
