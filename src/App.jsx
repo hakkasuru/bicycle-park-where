@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Map } from './components/Map';
@@ -8,21 +8,26 @@ import { LocateButton } from './components/LocateButton';
 import { InfoSheet } from './components/InfoSheet';
 import { useFilteredData, DEFAULT_FILTERS } from './hooks/useFilteredData';
 import { useGeolocation } from './hooks/useGeolocation';
-import bicycleParkingData from './data/bicycle-parking.json';
 import userSubmittedData from './data/user-submitted.json';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
 
-// Merge both data sources, mark user-submitted spots
-const allParkingData = [
-  ...bicycleParkingData,
-  ...userSubmittedData.map(spot => ({ ...spot, isUserSubmitted: true }))
-];
-
 function App() {
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [flyTo, setFlyTo] = useState(null);
+  const [allParkingData, setAllParkingData] = useState([]);
   const { location: userLocation, loading: locating, getCurrentLocation } = useGeolocation();
+
+  useEffect(() => {
+    fetch('/bicycle-parking.json')
+      .then(res => res.json())
+      .then(data => {
+        setAllParkingData([
+          ...data,
+          ...userSubmittedData.map(spot => ({ ...spot, isUserSubmitted: true }))
+        ]);
+      });
+  }, []);
 
   const filteredData = useFilteredData(allParkingData, filters);
 
@@ -70,7 +75,7 @@ function App() {
       {/* Results Count Badge */}
       <div className="absolute top-20 left-1/2 -translate-x-1/2 z-10">
         <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md text-sm text-gray-600">
-          {filteredData.length} parking spots
+          {filteredData.length > 0 ? `${filteredData.length} parking spots` : 'Loading…'}
         </div>
       </div>
 
