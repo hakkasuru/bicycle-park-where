@@ -74,7 +74,7 @@ function App() {
         )}
 
         {/* Locate Button, Route, Settings & Info */}
-        <div className="pointer-events-auto flex gap-2">
+        <div className="pointer-events-auto flex gap-2 ml-auto">
           <LocateButton onClick={handleLocate} loading={locating} />
           <RouteSheet
             gpxRoute={gpxRoute}
