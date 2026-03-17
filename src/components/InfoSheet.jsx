@@ -78,6 +78,13 @@ export function InfoSheet() {
             </div>
 
             <div className="pt-3 border-t border-gray-100">
+              <h4 className="font-medium text-gray-900 text-sm">GPX Route Overlay</h4>
+              <p className="text-xs text-gray-500 mt-1">
+                Load a GPX file to overlay your cycling route on the map. Use the Settings button to toggle between viewing parking spots, your route, or both.
+              </p>
+            </div>
+
+            <div className="pt-3 border-t border-gray-100">
               <h4 className="font-medium text-gray-900 text-sm">Know a spot?</h4>
               <p className="text-xs text-gray-500 mt-1">
                 Contribute by adding to the user-submitted.json file on GitHub.
