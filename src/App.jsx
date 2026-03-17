@@ -63,13 +63,15 @@ function App() {
       {/* Bottom Controls */}
       <div className="absolute bottom-6 left-4 right-4 z-10 flex items-end justify-between pointer-events-none">
         {/* Filter Button */}
-        <div className="pointer-events-auto">
-          <FilterSheet
-            filters={filters}
-            onChange={setFilters}
-            resultCount={filteredData.length}
-          />
-        </div>
+        {viewMode !== 'route' && (
+          <div className="pointer-events-auto">
+            <FilterSheet
+              filters={filters}
+              onChange={setFilters}
+              resultCount={filteredData.length}
+            />
+          </div>
+        )}
 
         {/* Locate Button, Route, Settings & Info */}
         <div className="pointer-events-auto flex gap-2">
