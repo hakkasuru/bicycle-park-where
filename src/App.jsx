@@ -91,11 +91,13 @@ function App() {
       </div>
 
       {/* Results Count Badge */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 z-10">
-        <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md text-sm text-gray-600">
-          {filteredData.length > 0 ? `${filteredData.length} parking spots` : 'Loading…'}
+      {viewMode !== 'route' && (
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 z-10">
+          <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md text-sm text-gray-600">
+            {filteredData.length > 0 ? `${filteredData.length} parking spots` : 'Loading…'}
+          </div>
         </div>
-      </div>
+      )}
 
       <Analytics />
       <SpeedInsights />
