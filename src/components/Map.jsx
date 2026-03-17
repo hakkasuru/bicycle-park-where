@@ -114,7 +114,7 @@ const userSubmittedUnshelteredLayer = {
   },
 };
 
-export function Map({ data, mapboxToken, flyTo, userLocation }) {
+export function Map({ data, mapboxToken, flyTo, userLocation, gpxRoute, viewMode }) {
   const mapRef = useRef(null);
   const [viewState, setViewState] = useState(SINGAPORE_CENTER);
   const [selectedSpot, setSelectedSpot] = useState(null);
@@ -122,6 +122,10 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
 
   // Memoize GeoJSON to prevent recalculation on every render
   const geojson = useMemo(() => toGeoJSON(data), [data]);
+
+  const showParking = viewMode === 'all' || viewMode === 'parking';
+  const showRoute = viewMode === 'all' || viewMode === 'route';
+  const parkingVisibility = showParking ? 'visible' : 'none';
 
   // Fly to location when flyTo changes
   useEffect(() => {
@@ -229,13 +233,32 @@ export function Map({ data, mapboxToken, flyTo, userLocation }) {
         clusterMaxZoom={14}
         clusterRadius={50}
       >
-        <Layer {...clusterLayer} />
-        <Layer {...clusterCountLayer} />
-        <Layer {...shelteredPointLayer} />
-        <Layer {...unshelteredPointLayer} />
-        <Layer {...userSubmittedShelteredLayer} />
-        <Layer {...userSubmittedUnshelteredLayer} />
+        <Layer {...clusterLayer} layout={{ ...clusterLayer.layout, visibility: parkingVisibility }} />
+        <Layer {...clusterCountLayer} layout={{ ...clusterCountLayer.layout, visibility: parkingVisibility }} />
+        <Layer {...shelteredPointLayer} layout={{ visibility: parkingVisibility }} />
+        <Layer {...unshelteredPointLayer} layout={{ visibility: parkingVisibility }} />
+        <Layer {...userSubmittedShelteredLayer} layout={{ visibility: parkingVisibility }} />
+        <Layer {...userSubmittedUnshelteredLayer} layout={{ visibility: parkingVisibility }} />
       </Source>
+
+      {/* GPX Route */}
+      {gpxRoute && (
+        <Source id="gpx-route" type="geojson" data={gpxRoute}>
+          <Layer
+            id="gpx-route-line"
+            type="line"
+            layout={{
+              visibility: showRoute ? 'visible' : 'none',
+              'line-join': 'round',
+              'line-cap': 'round',
+            }}
+            paint={{
+              'line-color': 'rgba(168, 85, 247, 0.75)',
+              'line-width': 4,
+            }}
+          />
+        </Source>
+      )}
 
       {/* User location marker */}
       {userLocation && (

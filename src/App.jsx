@@ -6,8 +6,11 @@ import { SearchBar } from './components/SearchBar';
 import { FilterSheet } from './components/FilterSheet';
 import { LocateButton } from './components/LocateButton';
 import { InfoSheet } from './components/InfoSheet';
+import { RouteSheet } from './components/RouteSheet';
+import { SettingsSheet } from './components/SettingsSheet';
 import { useFilteredData, DEFAULT_FILTERS } from './hooks/useFilteredData';
 import { useGeolocation } from './hooks/useGeolocation';
+import { useRouteData } from './hooks/useRouteData';
 import userSubmittedData from './data/user-submitted.json';
 
 const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -17,6 +20,7 @@ function App() {
   const [flyTo, setFlyTo] = useState(null);
   const [allParkingData, setAllParkingData] = useState([]);
   const { location: userLocation, loading: locating, getCurrentLocation } = useGeolocation();
+  const { gpxRoute, viewMode, routeError, routeFileName, loadRoute, clearRoute, setViewMode } = useRouteData();
 
   useEffect(() => {
     fetch('/bicycle-parking.json')
@@ -47,6 +51,8 @@ function App() {
         mapboxToken={MAPBOX_TOKEN}
         flyTo={flyTo}
         userLocation={userLocation}
+        gpxRoute={gpxRoute}
+        viewMode={viewMode}
       />
 
       {/* Search Bar - Floating at top */}
@@ -65,9 +71,21 @@ function App() {
           />
         </div>
 
-        {/* Locate Button & Info */}
+        {/* Locate Button, Route, Settings & Info */}
         <div className="pointer-events-auto flex gap-2">
           <LocateButton onClick={handleLocate} loading={locating} />
+          <RouteSheet
+            gpxRoute={gpxRoute}
+            routeFileName={routeFileName}
+            routeError={routeError}
+            onLoad={loadRoute}
+            onClear={clearRoute}
+          />
+          <SettingsSheet
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            hasRoute={!!gpxRoute}
+          />
           <InfoSheet />
         </div>
       </div>
