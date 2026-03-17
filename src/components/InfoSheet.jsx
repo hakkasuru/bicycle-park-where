@@ -92,7 +92,7 @@ export function InfoSheet() {
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-4 border-t border-gray-100 bg-gray-50">
+          <div className="px-6 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] border-t border-gray-100 bg-gray-50">
             <a
               href="https://github.com/hakkasuru/bicycle-park-where"
               target="_blank"

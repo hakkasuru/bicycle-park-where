@@ -89,7 +89,7 @@ export function FilterSheet({ filters, onChange, resultCount }) {
           </div>
 
           {/* Content */}
-          <div className="px-6 py-5 space-y-6">
+          <div className="px-6 py-5 pb-[calc(1.25rem+env(safe-area-inset-bottom))] space-y-6">
             {/* Shelter Toggle */}
             <div>
               <label className="flex items-center justify-between cursor-pointer">
