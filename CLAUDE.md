@@ -53,19 +53,21 @@ src/
 │   ├── useFilteredData.js  # Filter logic + rack type labels
 │   └── useGeolocation.js   # Browser geolocation hook
 ├── data/
-│   ├── bicycle-parking.json  # LTA DataMall data (~26k spots)
 │   └── user-submitted.json   # Community-contributed spots
 ├── App.jsx
 ├── main.jsx
 └── index.css
+public/
+└── bicycle-parking.json  # LTA DataMall data (~26k spots), fetched at runtime
 scripts/
 └── fetch-data.js  # LTA API fetch with multi-point coverage
 ```
 
 ## Data Sources
 
-### 1. LTA DataMall (`bicycle-parking.json`)
+### 1. LTA DataMall (`public/bicycle-parking.json`)
 - ~26,000 official bicycle parking locations
+- Lives in `public/` and is fetched at runtime (not bundled) to keep the JS bundle small
 - Fetched using multiple query points to cover all of Singapore
 - Fields: `Description`, `Latitude`, `Longitude`, `RackType`, `RackCount`, `ShelterIndicator`
 

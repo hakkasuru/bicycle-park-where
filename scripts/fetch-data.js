@@ -95,7 +95,7 @@ async function fetchBicycleParking() {
   // Write to file
   const fs = await import('fs');
   const path = await import('path');
-  const outputPath = path.join(process.cwd(), 'src/data/bicycle-parking.json');
+  const outputPath = path.join(process.cwd(), 'public/bicycle-parking.json');
 
   fs.writeFileSync(outputPath, JSON.stringify(allData, null, 2));
   console.log(`Data saved to ${outputPath}`);
