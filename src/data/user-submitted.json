@@ -16,5 +16,14 @@
     "RackCount": 6,
     "ShelterIndicator": "Y",
     "Notes": "Sheltered from rain, next to 7-Eleven"
+  },
+  {
+    "Description": "One Holland Village",
+    "Latitude": 1.311462,
+    "Longitude": 103.793752,
+    "RackType": "SHOPPING_MALL",
+    "RackCount": 10,
+    "ShelterIndicator": "Y",
+    "Notes": "Ground level, sheltered. Lot count not verified"
   }
 ]
